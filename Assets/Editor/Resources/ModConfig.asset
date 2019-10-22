@@ -17,4 +17,4 @@ MonoBehaviour:
   description: 'Github: https://github.com/obachs971/WhiteCipher'
   version: 1.0.0
   outputFolder: build
-  previewImage: {fileID: 2800000, guid: 42678700b11c65e4d8284037f013a09a, type: 3}
+  previewImage: {fileID: 2800000, guid: 5d8d2866a1bc6824db86a85012bb2a44, type: 3}
