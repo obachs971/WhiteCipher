@@ -398,6 +398,7 @@ public class ultimateCipher : MonoBehaviour {
                 screenTexts[0].text = "";
                 screenTexts[1].text = "";
                 screenTexts[2].text = pressed.GetComponentInChildren<TextMesh>().text;
+                screenTexts[2].fontSize = 40;
                 submitScreen = true;
             }
         }
