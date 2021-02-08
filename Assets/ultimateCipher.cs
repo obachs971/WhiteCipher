@@ -209,19 +209,9 @@ public class ultimateCipher : MonoBehaviour {
     string whitecipher(string word)
     {
         Debug.LogFormat("[White Cipher #{0}] Begin Sean Encryption", moduleId);
-        string encrypt = SeanEnc(word);
-        Debug.LogFormat("[White Cipher #{0}] Begin Grille Transposition", moduleId);
-        GrilleTrans();
-        Debug.LogFormat("[White Cipher #{0}] Begin Base Caesar Encryption", moduleId);
-        encrypt = BaseCaesarEnc(encrypt);  
-        return encrypt;
-    }
-    string SeanEnc(string word)
-    {
-        string encrypt = "";
         string kw = "";
         List<int> lengths = new List<int>();
-        switch(UnityEngine.Random.Range(0, 6))
+        switch (UnityEngine.Random.Range(0, 6))
         {
             case 0:
                 lengths.Add(4);
@@ -255,12 +245,22 @@ public class ultimateCipher : MonoBehaviour {
                 break;
         }
         lengths.Shuffle();
-        for(int aa = 0; aa < lengths.Count; aa++)
+        for (int aa = 0; aa < lengths.Count; aa++)
         {
             string tempkw = wordList[lengths[aa]][UnityEngine.Random.Range(0, wordList[lengths[aa]].Count)].ToUpper();
             wordList[lengths[aa]].Remove(tempkw.ToUpper());
             kw = kw + "" + tempkw.ToUpper();
         }
+        string encrypt = SeanEnc(word, kw.ToUpper());
+        Debug.LogFormat("[White Cipher #{0}] Begin Grille Transposition", moduleId);
+        GrilleTrans(kw.ToUpper());
+        Debug.LogFormat("[White Cipher #{0}] Begin Base Caesar Encryption", moduleId);
+        encrypt = BaseCaesarEnc(encrypt);  
+        return encrypt;
+    }
+    string SeanEnc(string word, string kw)
+    {
+        string encrypt = "";
         pages[1][0] = kw.ToUpper();
         string key = getKey(kw, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", Bomb.GetOnIndicators().Count() % 2 == 0);
         Debug.LogFormat("[White Cipher #{0}] Key:", moduleId);
@@ -269,9 +269,9 @@ public class ultimateCipher : MonoBehaviour {
         Debug.LogFormat("[White Cipher #{0}] {1}", moduleId, cipher[1]);
         bool clockwise = ("ZABCDEFGHIJKLMNOPQRSTUVWXY".IndexOf(Bomb.GetSerialNumberLetters().ToArray()[1]) % 2 == 1);
         if(clockwise)
-            Debug.LogFormat("[White Cipher #{0}] Alphanumeric position of the 2nd letter of the Serial Number is odd. Turning the key clockwise.", moduleId, cipher[1]);
+            Debug.LogFormat("[White Cipher #{0}] Alphanumeric position of the 2nd letter of the Serial Number is odd. Turning the key clockwise.", moduleId);
         else
-            Debug.LogFormat("[White Cipher #{0}] Alphanumeric position of the 2nd letter of the Serial Number is even. Turning the key counter-clockwise.", moduleId, cipher[1]);
+            Debug.LogFormat("[White Cipher #{0}] Alphanumeric position of the 2nd letter of the Serial Number is even. Turning the key counter-clockwise.", moduleId);
         for (int bb = 0; bb < 6; bb++)
         {
             if (cipher[0].IndexOf(word[bb]) >= 0)
@@ -327,13 +327,11 @@ public class ultimateCipher : MonoBehaviour {
         pages[0][1] = baseOffset.ToUpper();
         return encrypt;
     }
-    void GrilleTrans()
+    void GrilleTrans(string word)
     {
-        string word = pages[1][0].ToUpper();
         int num = Bomb.GetPortCount() % 4;
         Debug.LogFormat("[White Cipher #{0}] Clockwise rotations: {1}", moduleId, num);
-        int[] pos = { 0, 12, 13, 4, 8, 5, 9, 1, 10, 2, 14, 3, 15, 6, 7, 11 }; ;
-        
+        int[] pos = { 0, 12, 13, 4, 8, 5, 9, 1, 10, 2, 14, 3, 15, 6, 7, 11 }; ;      
         for (int aa = 0; aa < 16; aa++)
         {
             for (int bb = 0; bb < num; bb++)
